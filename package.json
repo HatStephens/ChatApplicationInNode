@@ -1,0 +1,26 @@
+{
+  "name": "ChatApplicationInNode",
+  "version": "1.0.0",
+  "description": "Building a chat application using node (with express)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HatStephens/ChatApplicationInNode.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "HatStephens",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HatStephens/ChatApplicationInNode/issues"
+  },
+  "homepage": "https://github.com/HatStephens/ChatApplicationInNode",
+  "dependencies": {
+    "express": "^4.10.0"
+  }
+}
