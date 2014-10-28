@@ -17,9 +17,11 @@ io.on('connection', function(socket){
 
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg){
-		console.log('message: ' + msg);
+	io.emit('chat message', msg);													// removed console.log('message: ' + msg);
 	});
 });
+
+
 
 http.listen(9292, function(){
 	console.log('listening on port:9292');
