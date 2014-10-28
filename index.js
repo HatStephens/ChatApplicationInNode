@@ -3,7 +3,7 @@ var http = require('http').createServer(app);
 
 
 app.get('/', function(request, response){
-		response.send('<h1>Hello World</h1>');
+		response.sendFile(__dirname + '/index.html');
 	});
 
 http.listen(9292, function(){
