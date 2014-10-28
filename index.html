@@ -33,6 +33,9 @@
   		$('#m').val('');
   		return false;
   	});
+  	socket.on('new user entered', function(newusermsg){
+  		$('#messages').append($('<li>').text(newusermsg));
+  	});
   	socket.on('chat message', function(msg){
   		$('#messages').append($('<li>').text(msg));
   	});

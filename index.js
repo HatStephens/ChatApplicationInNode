@@ -10,6 +10,7 @@ app.get('/', function(request, response){
 
 io.on('connection', function(socket){
 	console.log('a user connected');
+	io.emit('new user entered', 'a new user has entered the arena - play nice');
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
 	});
