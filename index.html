@@ -8,6 +8,8 @@
 			* { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       li em { font-style: bold; color: red;}
+      li em.typing { color: blue;} 	
+      li em.info { color: silver;}
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       form input#username { border: 0; padding: 10px; width: 40%; margin-right: .5%; margin-bottom: 3px;}
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
@@ -30,20 +32,38 @@
 	
 	<script>
   	var socket = io();
+  	$('#m').one('keypress', function(){
+  		socket.emit('user typing', $('#username').val())
+  	});
+
   	$('form').submit(function(){
+  		$('#m').off('keypress');
+  		
   		usernameOnSite = $('#username').val();
   		messageOnSite = $('#m').val();
+  		
   		socket.emit('username', usernameOnSite);
-  		socket.emit('chat message', messageOnSite);
+  		socket.emit('chat message', messageOnSite, usernameOnSite );
+  		
   		$('#m').val('');
+  		
   		$('#messages').append($('<li>').html('<em>'+usernameOnSite+':</em> &nbsp&nbsp'+messageOnSite));
+  		
+  		$('#m').one('keypress', function(){
+  			socket.emit('user typing', $('#username').val())
+  		});
+  		
   		return false;
   	});
+
   	socket.on('new user entered', function(newusermsg){
-  		$('#messages').append($('<li><em>').text(newusermsg));
+  		$('#messages').append($('<li>').html('<em class="info">'+newusermsg+'</em>'));
   	});
   	socket.on('user left', function(userleftmsg){
-  		$('#messages').append($('<li><em>').text(userleftmsg));
+  		$('#messages').append($('<li>').html('<em class="info">'+userleftmsg+'</em>'));
+  	});
+  	socket.on('user typing', function(typingmsg){
+  		$('#messages').append($('<li>').html('<em class="typing">'+typingmsg+'</em>'));
   	});
   	socket.on('chat message', function(msg, username){
   		$('#messages').append($('<li>').html('<em>'+username+':</em> &nbsp&nbsp'+msg));

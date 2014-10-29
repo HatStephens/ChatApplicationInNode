@@ -25,8 +25,14 @@ io.on('connection', function(socket){
 });
 
 io.on('connection', function(socket){
-	socket.on('chat message', function(msg){
-	socket.broadcast.emit('chat message', msg, storeUsername);
+	socket.on('user typing', function(username){
+		socket.broadcast.emit('user typing', username+' is typing...');
+	});
+});
+
+io.on('connection', function(socket){
+	socket.on('chat message', function(msg, username){
+	socket.broadcast.emit('chat message', msg, username);
 	});
 });
 
