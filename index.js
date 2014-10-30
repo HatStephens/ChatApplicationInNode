@@ -15,25 +15,21 @@ io.on('connection', function(socket){
 	console.log('a user connected');
 	socket.broadcast.emit('new user entered', 'a new user has entered the arena - play nice');
 	usersConnected.push(socket)
-	console.log(usersConnected.length)
+	console.log('User connected. Users connected: ', usersConnected.length)
 
 	socket.on('username', function(username){
 		socket._events['username'] = username;
-		//console.log("let's see if username is updated:", socket)												
+		console.log("let's see if username is updated: ", socket._events['username'])												
 	});
 
 	socket.on('disconnect', function(username) {
-		//console.log('user disconnected');
-		//i = usersConnected.indexOf(socket)
-		//console.log("the position of the user in the array was, ", i)
-		//console.log(socket)
-		console.log("test", socket)
-		if(socket._events['username'] === ''){
-			socket._events['username'] = "Mr. X";
+		if(typeof(socket._events['username']) === 'function'){
+			socket._events['username'] = "Unknown User";
 			console.log(socket._events['username'])
-
 		}
 		socket.broadcast.emit('user left', socket._events['username']+' has left us');
+		usersConnected.splice(usersConnected.indexOf(socket), 1)
+		console.log('User disconnected. Users connected: ', usersConnected.length);
 	});
 });
 
