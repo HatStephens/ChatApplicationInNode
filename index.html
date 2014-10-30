@@ -46,11 +46,20 @@
   	var socket = io();
 
   	$('#m').one('keypress', function(){
+  		if( $('#username').val() === ''){
+  			return alert("You must enter a username")
+			}
+			else{
   		socket.emit('user typing', $('#username').val())
+  		}
   	});
 
   	$('form').submit(function(){
   		$('#m').off('keypress');
+
+  		if( $('#username').val() === ''){
+  			return alert("You must enter a username")
+			}
   		
   		usernameOnSite = $('#username').val();
   		messageOnSite = $('#m').val();
