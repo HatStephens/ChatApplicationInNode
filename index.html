@@ -7,6 +7,9 @@
 		<style>
 			* { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
+      section#main {display: flex; width: 100%;}
+      aside#messageswindow {width: 75%;}
+      aside#userswindow {width: 25%;}
       li em { font-style: bold; color: red;}
       li em.typing { color: blue;} 	
       li em.info { color: silver;}
@@ -21,7 +24,16 @@
 	</head>
 
 	<body>
-		<ul id="messages"></ul>
+		<section id='main'>
+		<aside id='messageswindow'>
+			<ul id="messages"></ul>
+		</aside>
+		
+		<aside id='userswindow'>
+			
+		</aside>
+		</section>
+
 		<form action="" id="messageform">
 			<input id="username" placeholder='enter your username here...' autocomplete="off" />
 			<input id="m" placeholder='type your message here... [please respect the forum rules of conduct]' autocomplete="off" /><button id='sendmessage'>Send</button>
