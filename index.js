@@ -8,7 +8,6 @@ app.get('/', function(request, response){
 		response.sendFile(__dirname + '/index.html');
 	});
 
-var storeUsername;
 var usersConnected = []
 
 io.on('connection', function(socket){
@@ -22,7 +21,13 @@ io.on('connection', function(socket){
 		console.log("let's see if username is updated: ", socket._events['username'])												
 	});
 
-	socket.on('disconnect', function(username) {
+	socket.on('list users', function(){
+			if(typeof(socket._events['username']) === 'string'){
+				io.emit('list users', getUsernames(usersConnected));
+			}
+		});
+
+	socket.on('disconnect', function() {
 		if(typeof(socket._events['username']) === 'function'){
 			socket._events['username'] = "Unknown User";
 			console.log(socket._events['username'])
@@ -41,7 +46,7 @@ io.on('connection', function(socket){
 
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg, username){
-	socket.broadcast.emit('chat message', msg, username);
+		socket.broadcast.emit('chat message', msg, username);
 	});
 });
 
@@ -50,3 +55,11 @@ io.on('connection', function(socket){
 http.listen(9292, function(){
 	console.log('listening on port:9292');
 });
+
+function getUsernames (usersConnected) {
+	var listOfUsernames=[];
+	for(i=0; i< usersConnected.length; i++){
+		listOfUsernames.push(usersConnected[i]._events['username']);
+	}
+	return listOfUsernames;
+}

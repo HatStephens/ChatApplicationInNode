@@ -30,7 +30,7 @@
 		</aside>
 		
 		<aside id='userswindow'>
-			
+			<ul id="users"></ul>
 		</aside>
 		</section>
 
@@ -45,9 +45,12 @@
 	<script>
   	var socket = io();
 
+  	users =[]
+  	// socket.emit('list users')
+
   	$('#m').one('keypress', function(){
   		if( $('#username').val() === ''){
-  			return alert("You must enter a username")
+  			alert("You must enter a username")
 			}
 			else{
   		socket.emit('user typing', $('#username').val())
@@ -56,9 +59,10 @@
 
   	$('form').submit(function(){
   		$('#m').off('keypress');
+  		socket.emit('list users')
 
   		if( $('#username').val() === ''){
-  			return alert("You must enter a username")
+  			alert("You must enter a username")
 			}
   		
   		usernameOnSite = $('#username').val();
@@ -79,7 +83,7 @@
   	});
 
 
-  	socket.on('new user entered', function(newusermsg){
+  	socket.on('new user entered', function(newusermsg, username){
   		$('#messages').append($('<li>').html('<em class="info">'+newusermsg+'</em>'));
   	});
   	socket.on('user left', function(userleftmsg){
@@ -90,6 +94,12 @@
   	});
   	socket.on('chat message', function(msg, username){
   		$('#messages').append($('<li>').html('<em>'+username+':</em> &nbsp&nbsp'+msg));
+  	});
+  	socket.on('list users', function(users){
+  			// function showUsers(element, index, array){
+  			// 	"$('<li>').html("+element+")"
+  			// }
+  			$('#users').html($('<li>').html(users));     // .forEach(showUsers)
   	});
 
 	</script>
